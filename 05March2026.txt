@@ -1,6 +1,6 @@
 05-March-2026
 
------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 
 239 - https://leetcode.com/problems/sliding-window-maximum/
 
@@ -35,4 +35,145 @@ class Solution {
     }
 }
 
------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+496 - https://leetcode.com/problems/next-greater-element-i/
+
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        Stack<Integer> st = new Stack<>();
+
+        for (int i = nums2.length - 1; i >= 0; i--){
+            while (!st.isEmpty() && nums2[i] > st.peek())
+                st.pop();
+            
+            if (st.isEmpty()) 
+                map.put(nums2[i], -1);
+            else
+                map.put(nums2[i], st.peek());
+
+            st.push(nums2[i]);
+        }
+
+        int[] res = new int[nums1.length];
+
+        for (int i = 0; i < nums1.length; i++) {
+            res[i] = map.get(nums1[i]);
+        }
+
+        return res;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+739 - https://leetcode.com/problems/daily-temperatures/
+
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        int size = temperatures.length;
+        int[] result = new int[size];
+        Stack<Integer> storage = new Stack<Integer>();
+
+        for(int index = size-1; index >= 0; index--){
+            while (!storage.isEmpty() && temperatures[index]>= temperatures[storage.peek()])
+                storage.pop();
+            
+            result[index] = storage.isEmpty() ? 0 : storage.peek() - index;
+            storage.push(index);
+        }
+
+        return result;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+1758 - https://leetcode.com/problems/minimum-changes-to-make-alternating-binary-string/
+
+class Solution {
+    public int minOperations(String s) {
+        boolean binary = true;
+        int one = 0, zero = 0;
+
+        for(char letter : s.toCharArray()){
+
+            if((binary && letter != '1') || (!binary && letter == '1'))
+                zero++;
+            else
+                one++;
+
+            binary = ! binary;
+        }
+
+        return Math.min(one, zero);
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+20 - https://leetcode.com/problems/valid-parentheses/
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> storage = new Stack<>();
+
+        for(char letter : s.toCharArray()){
+            if(letter == '(' || letter == '[' || letter == '{'){
+                storage.push(letter);
+            }else{
+                if(storage.isEmpty()) return false;
+                char last = storage.peek();
+                if(letter == ')' && last == '(') storage.pop();
+                else if(letter == ']' && last == '[') storage.pop();
+                else if(letter == '}' && last == '{') storage.pop();
+                else return false;
+            }
+        }
+
+        return storage.isEmpty();
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+921 - https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/
+
+class Solution {
+    public int minAddToMakeValid(String s) {
+        Stack<Character> storage = new Stack<>();
+        int result = 0;
+
+        for(char letter : s.toCharArray()){
+            if(letter == '(' || letter == '[' || letter == '{'){
+                storage.push(letter);
+            }else{
+                if(storage.isEmpty()) result+=1;
+                else storage.pop();
+            }
+        }
+
+        return storage.size()+result;
+    }
+}
+
+// Optimized //
+
+class Solution {
+    public int minAddToMakeValid(String s) {
+        int open_count = 0, close_count = 0;
+
+        for(char letter : s.toCharArray()){
+            if(letter == '(') open_count ++;
+            else if(open_count > 0 ) open_count--;
+            else close_count++;
+        }
+
+        return open_count + close_count;
+    }
+}
+
+---------------------------------------------------------------------------------------------
