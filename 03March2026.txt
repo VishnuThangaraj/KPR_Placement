@@ -1,0 +1,152 @@
+03-March-2026
+
+-----------------------------------------------------------------------------------
+
+1- https://leetcode.com/problems/two-sum/
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer,Integer> storage = new HashMap<>();
+
+        for(int index=0; index<nums.length; index++){
+            if(storage.containsKey(target - nums[index])){
+                return new int[] {storage.get(target-nums[index]), index};
+            }
+            storage.put(nums[index], index);
+        }
+
+        return new int[] {}; 
+    }
+}
+
+-----------------------------------------------------------------------------------
+
+3- https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int[] storage = new int[128];
+
+        int start = 0, end = 0, size = s.length(), result = 0;
+
+        for(; start < size; start++){
+            while(end < size && storage[(int)s.charAt(end)]==0){
+                storage[(int)s.charAt(end++)]++;
+            }
+            result = Math.max(result, end - start);
+            storage[(int)s.charAt(start)]--;
+        }
+
+        return result;
+    }
+}
+
+-----------------------------------------------------------------------------------
+
+14 - https://leetcode.com/problems/longest-common-prefix/
+
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if (strs.length == 1) return strs[0];
+
+        StringBuilder result = new StringBuilder();
+
+        for(int index=0; index< strs[0].length(); index++){
+            char letter = strs[0].charAt(index);
+            for(String word : strs)
+                if (index >= word.length() || letter != word.charAt(index)) return result.toString();
+
+            result.append(letter);
+        }
+
+        return result.toString();
+    }
+}
+
+-----------------------------------------------------------------------------------
+
+242 - https://leetcode.com/problems/valid-anagram/
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length()) return false;
+        int[] frequency = new int[26];
+
+        for(int index=0; index<s.length(); index++){
+            frequency[(int)(s.charAt(index) - 'a')]++;
+            frequency[(int)(t.charAt(index) - 'a')]--;
+        }
+
+        for(int freq : frequency) if(freq != 0) return false;
+
+        return true;
+    }
+}
+
+-----------------------------------------------------------------------------------
+
+125 - https://leetcode.com/problems/valid-palindrome/
+
+class Solution {
+    public boolean isPalindrome(String s) {
+        if (s.isEmpty()) {
+        	return true;
+        }
+        int start = 0, last = s.length() - 1;
+
+        while(start <= last) {
+        	if (!Character.isLetterOrDigit(s.charAt(start))) start++;
+        	else if(!Character.isLetterOrDigit(s.charAt(last))) last--;
+        	else {
+        		if (Character.toLowerCase(s.charAt(start)) != Character.toLowerCase(s.charAt(last))) return false;
+        		
+        		start++;
+        		last--;
+        	}
+        }
+        return true;
+    }
+
+}
+
+-----------------------------------------------------------------------------------
+
+14 - https://leetcode.com/problems/longest-common-prefix/
+
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if (strs.length == 1) return strs[0];
+
+        StringBuilder result = new StringBuilder();
+
+        for(int index=0; index< strs[0].length(); index++){
+            char letter = strs[0].charAt(index);
+            for(String word : strs)
+                if (index >= word.length() || letter != word.charAt(index)) return result.toString();
+
+            result.append(letter);
+        }
+
+        return result.toString();
+    }
+}
+
+-----------------------------------------------------------------------------------
+
+2540 - http://leetcode.com/problems/minimum-common-value/description/
+
+class Solution {
+    public int getCommon(int[] nums1, int[] nums2) {
+        int first = 0, second = 0;
+
+        while(first < nums1.length && second < nums2.length){
+            if(nums1[first] == nums2[second]) return nums1[first];
+            else if(nums1[first] < nums2[second]) first++;
+            else second++;
+        }
+
+        return -1;
+    }
+}
+
+-----------------------------------------------------------------------------------

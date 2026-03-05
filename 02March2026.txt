@@ -1,0 +1,108 @@
+02-March-2026
+
+-----------------------------------------------------------------------------------
+
+161 - https://leetcode.com/problems/majority-element/
+
+var findMajor = function(nums, startIndex, reference){
+    let numCount = 0;
+
+    for(let index=startIndex; index<nums.length; index++){
+        if(nums[index] == reference) numCount ++;
+        else numCount --;
+
+        // Check if the reference is major or not
+        if(numCount < 0) return findMajor(nums, index, nums[index]);
+    }
+
+    return reference;
+};
+
+var majorityElement = function(nums) {
+    // array, startIndex, reference
+    return findMajor(nums,0,nums[0]);
+};
+
+-----------------------------------------------------------------------------------
+
+53 - https://leetcode.com/problems/maximum-subarray/
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int result = Integer.MIN_VALUE, sum = 0;
+
+        for(int num: nums){
+            sum += num;
+            result = (sum > result) ? sum : result;
+            sum = (sum < 0) ? 0 : sum;
+        }
+
+        return result;
+    }
+}
+
+-----------------------------------------------------------------------------------
+
+160 - https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+
+        ListNode ptr1 = headA;
+        ListNode ptr2 = headB;
+
+        while(ptr1!=ptr2){
+            ptr1 = ptr1==null? headB:ptr1.next;
+            ptr2 = ptr2==null? headA:ptr2.next;
+        }
+        return ptr1; 
+    }
+}
+
+-----------------------------------------------------------------------------------
+
+121 - https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int buy = prices[0], result = 0;
+
+        for(int sell=1; sell<prices.length; sell++){
+            if(prices[sell] < buy) buy = prices[sell];
+            else{
+                int profit = prices[sell] - buy;
+                result = (result < profit) ? profit : result;
+            }
+        }
+
+        return result;
+    }
+}
+
+-----------------------------------------------------------------------------------
+
+122 - https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        
+        int curr = -1, ans = 0;
+        for(int i = 1; i < n; i++) {
+            if(curr == -1 && prices[i] > prices[i-1]) {
+                curr = prices[i-1];
+            } else if(curr != -1 && prices[i] < prices[i-1]) {
+                ans += prices[i-1] - curr;
+                curr = -1;
+            }
+        }
+
+        if(curr != -1) {
+            ans += prices[n-1] - curr;
+        }
+
+        return ans;
+    }
+}
+
+-----------------------------------------------------------------------------------

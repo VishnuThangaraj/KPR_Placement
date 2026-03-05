@@ -1,0 +1,38 @@
+05-March-2026
+
+-----------------------------------------------------------------------------------
+
+239 - https://leetcode.com/problems/sliding-window-maximum/
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int size = nums.length;
+        int[] result = new int[(size - k) + 1];
+        Deque<Integer> deque = new LinkedList<Integer>();
+
+        // k times
+        for(int index=0; index<k; index++){
+            while(!deque.isEmpty() && nums[index] >= nums[deque.peekLast()])
+                deque.removeLast();
+            deque.addLast(index);
+        }
+
+        int j = 0;
+        for(int index = k; index < size; index++){
+            result[j++] = nums[deque.peek()];
+
+            while(!deque.isEmpty() && deque.peek() < (index-k)+1)
+                deque.removeFirst();
+
+            while(!deque.isEmpty() && nums[index] >= nums[deque.peekLast()])
+                deque.removeLast();
+            
+            deque.addLast(index);
+        }
+        
+        result[j] = nums[deque.peek()];
+        return result;
+    }
+}
+
+-----------------------------------------------------------------------------------
