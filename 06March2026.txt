@@ -1,0 +1,165 @@
+05-March-2026
+
+---------------------------------------------------------------------------------------------
+
+1456 - https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/
+
+class Solution {
+
+    public boolean checkVowels(char l){
+        if(l == 'a' || l == 'e' || l == 'i' || l == 'o' || l == 'u')
+            return true;
+        return false;
+    }
+
+    public int maxVowels(String s, int k) {
+        int vowels = 0;
+
+        for(int index=0; index<k; index++)
+            if(checkVowels(s.charAt(index)))
+                vowels++;
+
+        int result = vowels;
+
+        for(int index = k; index < s.length(); index++){
+            if(checkVowels(s.charAt(index-k))) vowels--;
+            if(checkVowels(s.charAt(index))) vowels++;
+
+            result = (vowels > result) ? vowels : result;
+        }
+
+        return result;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+1784 - https://leetcode.com/problems/check-if-binary-string-has-at-most-one-segment-of-ones/
+
+class Solution {
+    public boolean checkOnesSegment(String s) {
+        boolean flag = false; // Flag to Track a Segment
+
+        for(char letter : s.toCharArray()){
+           if(letter == '0') flag = true;
+           else if(letter == '1' && flag) return false; 
+        }
+
+        return true;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+3 - https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int start = 0, result = 0;
+        HashSet<Character> storage = new HashSet<>();
+
+        for(int end=0; end<s.length(); end++){
+            char letter = s.charAt(end);
+
+            while(start < end && storage.contains(letter))
+                storage.remove(s.charAt(start++));
+
+            storage.add(letter);
+
+            int str_size = (end - start) + 1;
+            result = (str_size > result) ? str_size : result;
+        }
+
+        return result;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+704 - https://leetcode.com/problems/binary-search/description/
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int start = 0, end = nums.length-1;
+
+        while (start <= end){
+            int mid = start + (end-start) / 2;
+            if(nums[mid] == target) return mid;
+            if(nums[mid] > target) end = mid-1;
+            else start = mid+1;
+        }
+
+        return -1;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+151 - https://leetcode.com/problems/reverse-words-in-a-string/
+
+class Solution {
+    public String reverseWords(String s) {
+        StringBuilder result = new StringBuilder();
+        StringBuilder current = new StringBuilder();
+
+        for(char letter : s.toCharArray()){
+            if(letter == ' '){
+                if(current.length() > 0){
+                    String word = result.length() == 0 ? current.toString() : current.toString()+" ";
+                    result.insert(0, word);
+                    current.setLength(0);
+                }
+            }
+            else{
+                current.append(letter);
+            }
+        }
+
+        if(current.length() > 0){
+            String word = result.length() == 0 ? current.toString() : current.toString()+" ";
+            result.insert(0, word);
+            current.setLength(0);
+        }
+
+        return result.toString();
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+33 - https://leetcode.com/problems/search-in-rotated-sorted-array/description/
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int start = 0, end = nums.length-1;
+
+        while (start <= end){
+            int mid = start + (end - start)/2;
+
+            if(nums[mid] == target) return mid;
+
+           // check if left half is sorted
+            if (nums[start] <= nums[mid]) {
+                if (target >= nums[start] && target < nums[mid]) {
+                    end = mid - 1;
+                } else {
+                    start = mid + 1;
+                }
+            }
+            
+            // right half is sorted
+            else {
+                if (target > nums[mid] && target <= nums[end]) {
+                    start = mid + 1;
+                } else {
+                    end = mid - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+
+
+---------------------------------------------------------------------------------------------
