@@ -1,0 +1,228 @@
+09-March-2026
+
+---------------------------------------------------------------------------------------------
+
+var isValidSudoku = function(board) {
+
+    const isValid = (row, col) => {
+        const val = board[row][col];
+
+        // Check row
+        for (let c = 0; c < 9; c++) {
+            if (c !== col && board[row][c] === val) {
+                return false;
+            }
+        }
+
+        // Check column
+        for (let r = 0; r < 9; r++) {
+            if (r !== row && board[r][col] === val) {
+                return false;
+            }
+        }
+
+        const startRow = Math.floor(row / 3) * 3;
+        const startCol = Math.floor(col / 3) * 3;
+
+        for (let r = startRow; r < startRow + 3; r++) {
+            for (let c = startCol; c < startCol + 3; c++) {
+                if ((r !== row || c !== col) && board[r][c] === val) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    };
+
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (board[i][j] !== ".") {
+                if (!isValid(i, j)) return false;
+            }
+        }
+    }
+
+    return true;
+};
+
+// JAVA //
+
+class Solution {
+    // Check the Num is Valid   
+    public boolean isValid(char[][] board, int row, int col){
+        int value = board[row][col];
+        if(value == '.') return true; 
+
+        // check row
+        for(int c = 0; c<9; c++)
+            if (c != col && board[row][c] == value)
+                return false;
+
+        // Check Col
+        for(int r = 0; r < 9; r++)
+            if (r != row && board[r][col] == value)
+                return false;
+
+        // Check Grid
+        int startRow = (row/3) * 3, startCol = (col/3) * 3;
+
+        for(int r = startRow; r < startRow + 3; r++)
+            for(int c = startCol; c < startCol + 3; c++)
+                if((r != row || c != col) && (board[r][c] == value))
+                    return false;
+           
+        return true;
+    }
+    
+    public boolean isValidSudoku(char[][] board) {
+
+        for(int row = 0; row < 9; row++)
+            for(int col=0; col < 9; col++)
+                if(!isValid(board, row, col))
+                    return false;
+
+        return true;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+94 - https://leetcode.com/problems/binary-tree-inorder-traversal/
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        if(root == null) return result; // empty tree
+        List<Integer> result = new ArrayList<>();
+
+        INORDER(root, result);
+        return result;
+    }
+
+    public void INORDER(TreeNode node, List<Integer> result){
+        if(node == null){
+            return;
+        }
+        //left
+        INORDER(node.left,result);
+        result.add(node.val);
+        INORDER(node.right,result);
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+PreOrder
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        if(root == null) return result; // empty tree
+        List<Integer> result = new ArrayList<>();
+
+        INORDER(root, result);
+        return result;
+    }
+
+    public void INORDER(TreeNode node, List<Integer> result){
+        if(node == null){
+            return;
+        }
+
+        result.add(node.val);
+        INORDER(node.left,result);
+        INORDER(node.right,result);
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+PostOrder
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        if(root == null) return result; // empty tree
+        List<Integer> result = new ArrayList<>();
+
+        INORDER(root, result);
+        return result;
+    }
+
+    public void INORDER(TreeNode node, List<Integer> result){
+        if(node == null){
+            return;
+        }
+
+        INORDER(node.left,result);
+        INORDER(node.right,result);
+        result.add(node.val);
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+1161 - https://leetcode.com/problems/maximum-level-sum-of-a-binary-tree/description/
+
+class Solution {
+    public int maxLevelSum(TreeNode root) {
+        int max_val = root.val, level = 0, result = 1;
+
+        // Queue
+        Queue<TreeNode> storage = new LinkedList<>();
+        storage.offer(root);
+
+        while(!storage.isEmpty()){
+            int size = storage.size();
+            int level_sum = 0;
+            level++;
+
+            for(int loop=0; loop<size; loop++){
+                TreeNode node = storage.poll();
+
+                level_sum += node.val;
+                // Add Childrens
+                if(node.left!= null){
+                    storage.offer(node.left);
+                }
+                if(node.right != null){
+                    storage.offer(node.right);   
+                } 
+            }
+
+            if (max_val < level_sum){
+                max_val = level_sum;
+                result = level;
+            }
+        }
+
+        return result;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+102 - https://leetcode.com/problems/binary-tree-level-order-traversal/
+
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+
+        q = deque([root])
+        res = []
+
+        while q:
+            current = []
+            for _ in range(len(q)):
+                node = q.popleft()
+                current.append(node.val)
+
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+
+            res.append(current)
+
+        return ans
+
+---------------------------------------------------------------------------------------------

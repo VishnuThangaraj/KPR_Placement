@@ -1,0 +1,70 @@
+07-March-2026
+
+---------------------------------------------------------------------------------------------
+
+509 - https://leetcode.com/problems/fibonacci-number/
+
+class Solution {
+    public int solve(int n, int a, int b){
+        if(n == 0) return a;
+
+        return solve(n - 1, b, a + b);
+    }
+
+    public int fib(int n) {
+        return solve(n, 0, 1);
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+231 - https://leetcode.com/problems/power-of-two/
+
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        return n > 0 && (n & n - 1) == 0;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+46 - https://leetcode.com/problems/permutations/
+
+class Solution {
+    public void permutation(List<List<Integer>> answer,List<Integer> current,int[] nums, int index){
+
+        if(index >= nums.length){
+            answer.add(new ArrayList<>(current));
+            return;
+        }
+
+        int value = nums[index];
+
+        for(int ind=0; ind<=current.size(); ind++){
+            current.add(ind,value); 
+
+             permutation(answer, current, nums, index+1); 
+
+            current.remove(ind);
+        }
+    }
+
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> answer = new ArrayList<>();
+
+        List<Integer> current = new ArrayList<>();
+
+        //solve using recursion
+        permutation(answer, current, nums, 0);
+
+        return answer;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------
